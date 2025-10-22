@@ -42,6 +42,23 @@ Hackathon goal is **speed + autonomy + correctness scaffold**, not full knowledg
 
 ---
 
+## Architecture Diagram
+
+```mermaid
+flowchart LR
+    Editor[News Editor] -->|Submit article| WebUI[Next.js + shadcn/ui]
+    WebUI -->|POST /v1/check| API[Node.js API Service]
+    API -->|Forward request| Autonomy[Autonomy Root Orchestrator]
+    Autonomy -->|Spawn workers| Workers[Parallel Fact-Checking Agents]
+    Workers -->|Research claims via MCP| Brave[(Brave Search MCP Server)]
+    Workers -->|Return fact verdicts| Autonomy
+    Autonomy -->|Aggregate report| API
+    API -->|Respond JSON| WebUI
+    API -->|Respond JSON| CLI[CLI demo.sh]
+```
+
+---
+
 ## 🏗 Architecture (current MVP)
 
 ```
