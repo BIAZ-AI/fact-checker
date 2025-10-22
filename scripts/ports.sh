@@ -1,7 +1,34 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REMOTE_HOST="${1:-news.biaz.hurated.com}"
+usage() {
+  cat <<'EOF'
+Usage: scripts/ports.sh [host|local]
+
+Print Docker container port mappings. Defaults to remote host news.biaz.hurated.com.
+
+Options:
+  local          Inspect ports on the local machine
+  -h, --help     Show this help message
+EOF
+}
+
+REMOTE_HOST="news.biaz.hurated.com"
+if [[ $# -gt 0 ]]; then
+  case "$1" in
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    local)
+      REMOTE_HOST="local"
+      ;;
+    *)
+      REMOTE_HOST="$1"
+      ;;
+  esac
+fi
+
 FORMAT='{{.ID}} {{.Names}} {{.Ports}}'
 
 if [[ "$REMOTE_HOST" == "local" ]]; then

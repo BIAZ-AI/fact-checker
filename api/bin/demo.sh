@@ -1,20 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-host="localhost"
-port="${API_PORT:-21000}"
+scheme="https"
+host="${FACT_CHECKER_API_HOST:-api.news.biaz.hurated.com}"
+port="${FACT_CHECKER_API_PORT:-}" 
 as_json=false
 
 usage() {
   cat <<'EOF'
-Usage: api/bin/demo.sh [--json] [--host HOST] [--port PORT]
+Usage: api/bin/demo.sh [options]
 Reads article text from stdin and POSTs it to /v1/check.
 
 Options:
-  --json           Output raw JSON from the API
-  --host HOST      API host (default: localhost)
-  --port PORT      API port (default: API_PORT env or 21000)
-  -h, --help       Show this help message
+  --json             Output raw JSON from the API
+  --host HOST        Override API host (default: api.news.biaz.hurated.com)
+  --port PORT        Override API port (default: none for HTTPS)
+  --scheme SCHEME    Override scheme (default: https)
+  --local            Shortcut for http://localhost:${API_PORT:-21000}
+  -h, --help         Show this help message
 EOF
 }
 
@@ -25,6 +28,10 @@ if [[ $# -gt 0 ]]; then
         as_json=true
         shift
         ;;
+      --scheme)
+        scheme="$2"
+        shift 2
+        ;;
       --host)
         host="$2"
         shift 2
@@ -32,6 +39,12 @@ if [[ $# -gt 0 ]]; then
       --port)
         port="$2"
         shift 2
+        ;;
+      --local)
+        scheme="http"
+        host="localhost"
+        port="${API_PORT:-21000}"
+        shift
         ;;
       -h|--help)
         usage
@@ -59,7 +72,13 @@ if [[ -z "$payload" ]]; then
   exit 3
 fi
 
-response=$(curl -sS -X POST "http://${host}:${port}/v1/check" \
+url="${scheme}://${host}"
+if [[ -n "$port" ]]; then
+  url+=":${port}"
+fi
+url+="/v1/check"
+
+response=$(curl -sS -X POST "$url" \
   -H "Content-Type: application/json" \
   -d "$payload")
 
