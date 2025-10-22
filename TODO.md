@@ -6,11 +6,12 @@ Official hackathon tools (Weaviate, LlamaIndex, FriendliAI) are planned in later
 
 ---
 
-## Progress
+- **Progress**
 - [x] Base scaffolding: created `.gitignore`, `.dockerignore`, `.env.example`, and directories `api/`, `web/`, `scripts/`.
 - [x] API skeleton: added `api/package.json`, `api/tsconfig.json`, base `src/` files (`server.ts`, `schema.ts`, `autonomy.ts`).
-- [x] Local environment: generated `.env` with API port `21000`, web port `22000`, and placeholder Autonomy credentials pending deployment details.
-- [ ] Autonomy zone: scaffolded `autonomy-root/` app with fact-checking agent and UI. Deployment pending Docker availability on local machine.
+- [x] Local environment: generated `.env` with API port `21000`, web port `22000`, and Autonomy credentials placeholders updated with remote defaults.
+- [x] Autonomy zone: deployed `factcheck` zone via `/mnt/fact-checker/autonomy-root` with published UI and fact-checker agent.
+- [x] Deployment automation: added `scripts/deploy.sh` for local/remote docker compose rollout including optional commit step and remote sync.
 
 ## Repo layout (target)
 ```
