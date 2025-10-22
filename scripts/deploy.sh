@@ -16,7 +16,7 @@ EOF
 }
 
 REMOTE_HOST="news.biaz.hurated.com"
-REMOTE_DIR="/mnt/fact-checker"
+REMOTE_DIR="${DEPLOY_REMOTE_DIR:-~/fact-checker}"
 REMOTE="true"
 COMMIT_MESSAGE=""
 
@@ -75,6 +75,9 @@ deploy_remote() {
     echo ".env file is required for remote deployment." >&2
     exit 1
   fi
+
+  echo "Ensuring remote directory ${REMOTE_DIR} exists..."
+  ssh "${REMOTE_HOST}" "mkdir -p ${REMOTE_DIR}"
 
   echo "Copying .env to remote host..."
   scp .env "${REMOTE_HOST}:${REMOTE_DIR}/.env"
