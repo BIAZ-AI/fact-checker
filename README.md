@@ -44,6 +44,29 @@ Hackathon goal is **speed + autonomy + correctness scaffold**, not full knowledg
 
 ---
 
+## CLI Toolkit
+
+- `api/bin/demo.sh`
+  - Reads stdin article text and POSTs to `http://${host}:${port}/v1/check` (defaults `localhost:21000`).
+  - Use `--json` for raw API response, `--host` / `--port` to target remote deployments.
+- `scripts/deploy.sh`
+  - Automates optional commit (`-m`), `git push`, remote `.env` sync, and `docker compose` rollout.
+  - Defaults to remote mode targeting `news.biaz.hurated.com`; add `--local` to run locally when Docker is available.
+- `scripts/ports.sh`
+  - Prints Docker container port mappings. Defaults to remote host; pass `local` to inspect the current machine.
+- `scripts/setup-autonomy.sh`
+  - Initializes or redeploys the Autonomy zone (`factcheck` by default) and captures the public agent URL.
+  - Optionally updates an env file via `--output-env PATH`.
+
+---
+
+## Networking
+
+- Forward `api.news.biaz.hurated.com` → `localhost:21000` (`API_PORT`).
+- Forward `news.biaz.hurated.com` → `localhost:22000` (`WEB_PORT`, reserved for the upcoming web app).
+
+---
+
 ## Architecture Diagram
 
 ```mermaid

@@ -12,6 +12,7 @@ Official hackathon tools (Weaviate, LlamaIndex, FriendliAI) are planned in later
 - [x] Local environment: generated `.env` with API port `21000`, web port `22000`, and Autonomy credentials placeholders updated with remote defaults.
 - [x] Autonomy zone: deployed `factcheck` zone via `/mnt/fact-checker/autonomy-root` with published UI and fact-checker agent.
 - [x] Deployment automation: added `scripts/deploy.sh` for local/remote docker compose rollout including optional commit step and remote sync.
+- [x] CLI docs: documented usage for `demo.sh`, `deploy.sh`, `ports.sh`, and `setup-autonomy.sh`; noted port forwarding guidance.
 
 ## Repo layout (target)
 ```
