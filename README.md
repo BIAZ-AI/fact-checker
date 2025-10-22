@@ -41,6 +41,7 @@ Hackathon goal is **speed + autonomy + correctness scaffold**, not full knowledg
 - Base repository scaffolding in place: `.gitignore`, `.dockerignore`, `.env.example`, and initial `api/`, `web/`, `scripts/` directories.
 - Autonomy `factcheck` zone deployed from `/mnt/fact-checker/autonomy-root`, reachable via the cluster URL.
 - Added `scripts/deploy.sh` to automate committing, pushing, syncing `.env`, and running remote `docker compose` rollout.
+- Added `compose.yml` and `api/Dockerfile` to containerize the API service for local/remote Docker Compose runs.
 
 ---
 
