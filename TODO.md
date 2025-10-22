@@ -6,6 +6,10 @@ Official hackathon tools (Weaviate, LlamaIndex, FriendliAI) are planned in later
 
 ---
 
+## Progress
+- [x] Base scaffolding: created `.gitignore`, `.dockerignore`, `.env.example`, and directories `api/`, `web/`, `scripts/`.
+- [x] API skeleton: added `api/package.json`, `api/tsconfig.json`, base `src/` files (`server.ts`, `schema.ts`, `autonomy.ts`).
+
 ## Repo layout (target)
 ```
 fact-checker/

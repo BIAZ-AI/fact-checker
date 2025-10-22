@@ -36,6 +36,12 @@ Hackathon goal is **speed + autonomy + correctness scaffold**, not full knowledg
 
 ---
 
+## Current Progress
+
+- Base repository scaffolding in place: `.gitignore`, `.dockerignore`, `.env.example`, and initial `api/`, `web/`, `scripts/` directories.
+
+---
+
 ## 🏗 Architecture (current MVP)
 
 ```
