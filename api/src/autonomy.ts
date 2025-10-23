@@ -9,7 +9,7 @@ export async function runFactCheck(payload: CheckRequest): Promise<CheckResponse
     throw new Error("AUTONOMY_AGENT_URL env var is required to contact the Autonomy root agent");
   }
 
-  const url = new URL("/check", AUTONOMY_AGENT_URL).toString();
+  const url = new URL("/agents/fact-checker?stream=false", AUTONOMY_AGENT_URL).toString();
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
@@ -19,10 +19,25 @@ export async function runFactCheck(payload: CheckRequest): Promise<CheckResponse
     headers.Authorization = `Bearer ${AUTONOMY_API_KEY}`;
   }
 
-  const response = await axios.post<CheckResponse>(url, payload, {
-    headers,
-    timeout: 60_000,
-  });
+  const body = {
+    message: payload.input,
+    options: payload.options,
+  };
 
-  return response.data;
+  try {
+    const response = await axios.post<CheckResponse>(url, body, {
+      headers,
+      timeout: 60_000,
+    });
+
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error) && error.response) {
+      throw new Error(
+        `Autonomy request failed with status ${error.response.status}: ${JSON.stringify(error.response.data)}`
+      );
+    }
+
+    throw error instanceof Error ? error : new Error(String(error));
+  }
 }

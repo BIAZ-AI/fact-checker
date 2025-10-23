@@ -47,7 +47,14 @@ app.post("/v1/check", async (req: Request, res: Response) => {
     });
     res.status(200).json(validatedResponse);
   } catch (err) {
-    const message = err instanceof Error ? err.message : "Unknown error";
+    let message = "Unknown error";
+    if (err instanceof Error) {
+      message = err.message;
+      console.error(`[${new Date().toISOString()}] upstream_error message="${err.message}"`);
+    } else {
+      console.error(`[${new Date().toISOString()}] upstream_error`, err);
+    }
+
     res.status(400).json({ error: { message } });
   }
 });
