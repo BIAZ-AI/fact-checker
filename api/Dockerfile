@@ -20,7 +20,9 @@ COPY --from=deps /app/node_modules ./node_modules
 RUN npm run build
 
 FROM node:20-alpine AS runner
+ARG BUILD_TIME=unknown
 ENV NODE_ENV=production
+ENV BUILD_TIME=${BUILD_TIME}
 WORKDIR /app
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/node_modules ./node_modules

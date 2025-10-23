@@ -25,12 +25,26 @@ export async function runFactCheck(payload: CheckRequest): Promise<CheckResponse
   };
 
   try {
-    const response = await axios.post<CheckResponse>(url, body, {
+    const response = await axios.post(url, body, {
       headers,
       timeout: 60_000,
     });
 
-    return response.data;
+    const data = response.data;
+
+    if (Array.isArray(data)) {
+      const finalChunk = data[data.length - 1];
+      if (finalChunk && typeof finalChunk === "object" && "content" in finalChunk) {
+        try {
+          const parsed = JSON.parse((finalChunk as { content: { text: string } }).content.text ?? "{}");
+          return parsed as CheckResponse;
+        } catch (parseError) {
+          throw new Error(`Failed to parse Autonomy final chunk: ${String(parseError)}`);
+        }
+      }
+    }
+
+    return data as CheckResponse;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(

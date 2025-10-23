@@ -2,6 +2,8 @@ services:
   api:
     build:
       context: ./api
+      args:
+        - BUILD_TIME=${BUILD_TIME}
     env_file: .env
     environment:
       - PORT=${API_PORT}

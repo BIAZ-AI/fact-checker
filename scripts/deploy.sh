@@ -65,7 +65,7 @@ deploy_local() {
   fi
 
   echo "Running local docker compose deployment..."
-  docker compose build
+  BUILD_TIME=$(date -u +%Y-%m-%dT%H:%M:%SZ) docker compose build
   docker compose up -d
   docker compose ps
 }
@@ -83,7 +83,8 @@ deploy_remote() {
   scp .env "${REMOTE_HOST}:${REMOTE_DIR}/.env"
 
   echo "Executing remote deployment..."
-  ssh "${REMOTE_HOST}" "cd ${REMOTE_DIR} && git pull && docker compose build && docker compose up -d && docker compose ps"
+  BUILD_TIMESTAMP=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  ssh "${REMOTE_HOST}" "cd ${REMOTE_DIR} && git pull && BUILD_TIME='${BUILD_TIMESTAMP}' docker compose build && docker compose up -d && docker compose ps"
 }
 
 if [[ "$REMOTE" == "true" ]]; then
