@@ -3,7 +3,7 @@ services:
     build:
       context: ./api
       args:
-        - BUILD_TIME=${BUILD_TIME}
+        - BUILD_TIME=${BUILD_TIME:-unknown}
     env_file: .env
     environment:
       - PORT=${API_PORT}

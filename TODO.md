@@ -15,6 +15,11 @@ Official hackathon tools (Weaviate, LlamaIndex, FriendliAI) are planned in later
 - [x] CLI docs: documented usage for `demo.sh`, `deploy.sh`, `ports.sh`, and `setup-autonomy.sh`; noted port forwarding guidance.
 - [x] Docker Compose: added `compose.yml` and API Dockerfile for containerized local/remote runs (web service scaffold commented until implemented).
 
+## Parking lot — next session focus
+- **Stabilize Autonomy response parsing**: inspect raw payload from `runFactCheck()` when using `stream=false`, adjust parser to extract final fact-check JSON and ensure `meta.engine` is always present before Zod validation.
+- **Verify end-to-end success path**: rerun `./demo.sh --json` against the remote API, confirm a 200 response, and capture request/response logs for documentation.
+- **Harden structured logging**: consider masking/omitting article text, add log level env toggle, and ensure build metadata propagates correctly through Docker Compose without manual overrides.
+
 ## Repo layout (target)
 ```
 fact-checker/
